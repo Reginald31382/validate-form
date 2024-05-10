@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
+import Modal from "./Modal";
+import { TiInfoLarge } from "react-icons/ti";
 
 const MyForm = () => {
   const initialFormData = {
@@ -7,16 +9,14 @@ const MyForm = () => {
     lastName: "",
     email: "",
     phoneNumber: "",
-    password: "",
-    confirmPassword: "",
-    age: "",
-    gender: "",
-    interests: [],
-    birthDate: "",
+    services: [],
+    quantity: [],
+    quality: [],
   };
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First Name is required"),
@@ -27,29 +27,15 @@ const MyForm = () => {
     phoneNumber: Yup.string()
       .matches(/^\d{10}$/, "Phone Number must be 10 digits")
       .required("Phone Number is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        "Password must contain at least one symbol"
-      )
-      .matches(/\d/, "Password must contain at least one number")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
-    age: Yup.number()
-      .typeError("Age must be a number")
-      .min(18, "You must be at least 18")
-      .max(100, "Age must be less than or equal to 100")
-      .required("Age is required"),
-    gender: Yup.string().required("Gender is required"),
-    interests: Yup.array()
-      .min(1, "Select at least one interest")
-      .required("Select at least one interest"),
-    birthDate: Yup.date().required("Date of birth is required"),
+    services: Yup.array()
+      .min(1, "Select at least one service")
+      .required("Select at least one service"),
+    quantity: Yup.array()
+      .min(1, "Select at least one quantity")
+      .required("Select at least one quantity"),
+    quality: Yup.array()
+      .min(1, "Select at least one quality")
+      .required("Select at least one quality"),
   });
 
   const handleSubmit = async (e) => {
@@ -71,169 +57,226 @@ const MyForm = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: inputValue,
     });
   };
 
-  const handleCheckChange = (e) => {
+  const handleServiceChange = (e) => {
     const { name, checked } = e.target;
-    const updatedInterests = checked
-      ? [...formData.interests, name]
-      : formData.interests.filter((interest) => interest !== name);
+    const updatedServices = checked
+      ? [...formData.services, name]
+      : formData.services.filter((service) => service !== name);
     setFormData({
       ...formData,
-      interests: updatedInterests,
+      services: updatedServices,
+    });
+  };
+
+  const handleQuantityChange = (e) => {
+    const { name, checked } = e.target;
+    const updatedQuantities = checked
+      ? [...formData.quantity, name]
+      : formData.quantity.filter((quantity) => quantity !== name);
+    setFormData({
+      ...formData,
+      quantity: updatedQuantities,
+    });
+  };
+
+  const handleQualityChange = (e) => {
+    const { name, checked } = e.target;
+    const updatedQuality = checked
+      ? [...formData.quality, name]
+      : formData.quality.filter((item) => item !== name);
+    setFormData({
+      ...formData,
+      quality: updatedQuality,
     });
   };
 
   return (
-    <>
+    <div className="form-text">
       <img
+        src="https://i.ibb.co/DgnHvnF/jrome-tm.png"
+        alt="jrome"
         style={{
-          width: "4rem",
-          height: "auto",
           position: "fixed",
           bottom: "20px",
           left: "20px",
+          width: "3rem",
+          height: "auto",
         }}
-        src="https://i.ibb.co/DgnHvnF/jrome-tm.png"
-        alt="jrome"
       />
-      <div className="form-text">
-        <form className="form" onSubmit={handleSubmit}>
-          <div>
-            <label>First Name:</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              placeholder="First name"
-              onChange={handleChange}
-            />
-            {errors.firstName && (
-              <div className="error">{errors.firstName}</div>
-            )}
-          </div>
+      <span
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          fontSize: "8px",
+        }}
+      >
+        image by | 118535010 © Oleg Dudko | Dreamstime.com
+      </span>
+      <form className="form" onSubmit={handleSubmit}>
+        <div>
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            placeholder="First name"
+            onChange={handleChange}
+          />
+          {errors.firstName && <div className="error">{errors.firstName}</div>}
+        </div>
 
-          <div>
-            <label>Last Name:</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              placeholder="Last name"
-              onChange={handleChange}
-            />
-            {errors.lastName && <div className="error">{errors.lastName}</div>}
-          </div>
+        <div>
+          <label>Last Name:</label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            placeholder="Last name"
+            onChange={handleChange}
+          />
+          {errors.lastName && <div className="error">{errors.lastName}</div>}
+        </div>
 
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder="Email"
-              onChange={handleChange}
-            />
-            {errors.email && <div className="error">{errors.email}</div>}
-          </div>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            placeholder="Email"
+            onChange={handleChange}
+          />
+          {errors.email && <div className="error">{errors.email}</div>}
+        </div>
 
+        <div>
+          <label>Service:</label>
           <div>
-            <label>Phone Number:</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              placeholder="000-000-0000"
-              onChange={handleChange}
-            />
-            {errors.phoneNumber && (
-              <div className="error">{errors.phoneNumber}</div>
-            )}
-          </div>
-
-          <div>
-            <label>Service:</label>
             <label>
               <input
                 type="checkbox"
-                name="coding"
-                checked={formData.interests.includes("coding")}
-                onChange={handleCheckChange}
+                name="cards"
+                checked={formData.services.includes("cards")}
+                onChange={handleServiceChange}
               />
               Business Cards
             </label>
             <label>
               <input
                 type="checkbox"
-                name="sports"
-                checked={formData.interests.includes("sports")}
-                onChange={handleCheckChange}
+                name="flyers"
+                checked={formData.services.includes("flyers")}
+                onChange={handleServiceChange}
               />
               Flyers
             </label>
             <label>
               <input
                 type="checkbox"
-                name="reading"
-                checked={formData.interests.includes("reading")}
-                onChange={handleCheckChange}
+                name="other"
+                checked={formData.services.includes("other")}
+                onChange={handleServiceChange}
               />
               Other
             </label>
-            {errors.interests && (
-              <div className="error">{errors.interests}</div>
-            )}
           </div>
+          {errors.services && <div className="error">{errors.services}</div>}
+        </div>
 
+        <div>
+          <label style={{ display: "flex", alignItems: "center" }}>
+            Quality:
+            <TiInfoLarge
+              onClick={() => setShowModal(true)}
+              style={{ cursor: "pointer" }}
+            />
+          </label>
+          {showModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <Modal />
+                <button onClick={() => setShowModal(false)}>Close</button>
+              </div>
+            </div>
+          )}
           <div>
-            <label>Quantity:</label>
             <label>
               <input
                 type="checkbox"
-                name="coding"
-                checked={formData.interests.includes("coding")}
-                onChange={handleCheckChange}
+                name="basic"
+                checked={formData.quality.includes("basic")}
+                onChange={handleQualityChange}
+              />
+              Basic
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="standard"
+                checked={formData.quality.includes("standard")}
+                onChange={handleQualityChange}
+              />
+              Standard
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="premium"
+                checked={formData.quality.includes("premium")}
+                onChange={handleQualityChange}
+              />
+              Premium
+            </label>
+          </div>
+          {errors.quality && <div className="error">{errors.quality}</div>}
+        </div>
+
+        <div>
+          <label>Quantity:</label>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="50"
+                checked={formData.quantity.includes("50")}
+                onChange={handleQuantityChange}
               />
               50
             </label>
             <label>
               <input
                 type="checkbox"
-                name="sports"
-                checked={formData.interests.includes("sports")}
-                onChange={handleCheckChange}
+                name="100"
+                checked={formData.quantity.includes("100")}
+                onChange={handleQuantityChange}
               />
               100
             </label>
             <label>
               <input
                 type="checkbox"
-                name="reading"
-                checked={formData.interests.includes("reading")}
-                onChange={handleCheckChange}
+                name="150"
+                checked={formData.quantity.includes("150")}
+                onChange={handleQuantityChange}
               />
               150
             </label>
-            {errors.interests && (
-              <div className="error">{errors.interests}</div>
-            )}
           </div>
+          {errors.quantity && <div className="error">{errors.quantity}</div>}
+        </div>
 
-          <button className="btn__submit" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
-
-      <span className="image__tag">
-        image by | 118535010 © Oleg Dudko | Dreamstime.com
-      </span>
-    </>
+        <input className="btn__submit" type="submit" value="Submit" />
+      </form>
+    </div>
   );
 };
 

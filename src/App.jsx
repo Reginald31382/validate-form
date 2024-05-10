@@ -8,9 +8,7 @@ function App() {
       style={{
         display: "flex",
         flexDirection: "column",
-        placeItems: "center",
         border: "2px solid black",
-        padding: "25px",
       }}
     >
       <h1 className="text-header" style={{ textAlign: "center" }}>
