@@ -104,7 +104,7 @@ const MyForm = () => {
           placeholder="Enter first name"
           onChange={handleChange}
         />
-        {errors.firstName && <div className="error">{errors.firstName}</div>}
+        {/* {errors.firstName && <div className="error">{errors.firstName}</div>} */}
       </div>
 
       <div>
@@ -116,7 +116,7 @@ const MyForm = () => {
           placeholder="Enter last name"
           onChange={handleChange}
         />
-        {errors.lastName && <div className="error">{errors.lastName}</div>}
+        {/* {errors.lastName && <div className="error">{errors.lastName}</div>} */}
       </div>
 
       <div>
@@ -128,7 +128,7 @@ const MyForm = () => {
           placeholder="Enter email"
           onChange={handleChange}
         />
-        {errors.email && <div className="error">{errors.email}</div>}
+        {/* {errors.email && <div className="error">{errors.email}</div>} */}
       </div>
 
       <div>
@@ -140,9 +140,9 @@ const MyForm = () => {
           placeholder="000-000-0000"
           onChange={handleChange}
         />
-        {errors.phoneNumber && (
+        {/* {errors.phoneNumber && (
           <div className="error">{errors.phoneNumber}</div>
-        )}
+        )} */}
       </div>
 
       <div>
@@ -154,7 +154,7 @@ const MyForm = () => {
           placeholder="******"
           onChange={handleChange}
         />
-        {errors.password && <div className="error">{errors.password}</div>}
+        {/* {errors.password && <div className="error">{errors.password}</div>} */}
       </div>
 
       <div>
@@ -166,9 +166,9 @@ const MyForm = () => {
           placeholder="******"
           onChange={handleChange}
         />
-        {errors.confirmPassword && (
+        {/* {errors.confirmPassword && (
           <div className="error">{errors.confirmPassword}</div>
-        )}
+        )} */}
       </div>
 
       <div>
@@ -180,7 +180,7 @@ const MyForm = () => {
           placeholder="00"
           onChange={handleChange}
         />
-        {errors.age && <div className="error">{errors.age}</div>}
+        {/* {errors.age && <div className="error">{errors.age}</div>} */}
       </div>
 
       <div>
@@ -191,7 +191,7 @@ const MyForm = () => {
           <option value="female">Female</option>
           <option value="other">Other</option>
         </select>
-        {errors.gender && <div className="error">{errors.gender}</div>}
+        {/* {errors.gender && <div className="error">{errors.gender}</div>} */}
       </div>
 
       <div>
@@ -223,7 +223,7 @@ const MyForm = () => {
           />
           Reading
         </label>
-        {errors.interests && <div className="error">{errors.interests}</div>}
+        {/* {errors.interests && <div className="error">{errors.interests}</div>} */}
       </div>
 
       <div>
@@ -235,7 +235,7 @@ const MyForm = () => {
           placeholder="Enter birth day"
           onChange={handleChange}
         />
-        {errors.birthDate && <div className="error">{errors.birthDate}</div>}
+        {/* {errors.birthDate && <div className="error">{errors.birthDate}</div>} */}
       </div>
 
       <button type="submit">Submit</button>
