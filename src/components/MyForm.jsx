@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 
 const MyForm = () => {
+  // State to manage form input values
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -15,8 +16,10 @@ const MyForm = () => {
     birthDate: "",
   });
 
+  // State to store validation errors
   const [errors, setErrors] = useState();
 
+  // Validation schema using Yup
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
@@ -42,7 +45,7 @@ const MyForm = () => {
     age: Yup.number()
       .typeError("Age must be a number")
       .min(18, "You must be at least 18")
-      .max(100, "I don't believe your'e over 100")
+      .max(100, "I don't believe you're over 100")
       .required("Age is required"),
     gender: Yup.string().required("Gender is required"),
     interests: Yup.array()
@@ -51,6 +54,7 @@ const MyForm = () => {
     birthDate: Yup.date().required("Date of birth is required"),
   });
 
+  // Handles form submission and validation
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,6 +72,7 @@ const MyForm = () => {
     }
   };
 
+  // Handles changes for checkbox inputs
   const handleCheckChange = (e) => {
     const [name, checked] = e.target;
     let updatedInterests = [...formData.interests];
@@ -84,6 +89,7 @@ const MyForm = () => {
     });
   };
 
+  // Handles changes for text inputs and selects
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -104,7 +110,6 @@ const MyForm = () => {
           placeholder="Enter first name"
           onChange={handleChange}
         />
-        {/* {errors.firstName && <div className="error">{errors.firstName}</div>} */}
       </div>
 
       <div>
@@ -116,7 +121,6 @@ const MyForm = () => {
           placeholder="Enter last name"
           onChange={handleChange}
         />
-        {/* {errors.lastName && <div className="error">{errors.lastName}</div>} */}
       </div>
 
       <div>
@@ -128,7 +132,6 @@ const MyForm = () => {
           placeholder="Enter email"
           onChange={handleChange}
         />
-        {/* {errors.email && <div className="error">{errors.email}</div>} */}
       </div>
 
       <div>
@@ -140,9 +143,6 @@ const MyForm = () => {
           placeholder="000-000-0000"
           onChange={handleChange}
         />
-        {/* {errors.phoneNumber && (
-          <div className="error">{errors.phoneNumber}</div>
-        )} */}
       </div>
 
       <div>
@@ -154,7 +154,6 @@ const MyForm = () => {
           placeholder="******"
           onChange={handleChange}
         />
-        {/* {errors.password && <div className="error">{errors.password}</div>} */}
       </div>
 
       <div>
@@ -166,76 +165,6 @@ const MyForm = () => {
           placeholder="******"
           onChange={handleChange}
         />
-        {/* {errors.confirmPassword && (
-          <div className="error">{errors.confirmPassword}</div>
-        )} */}
-      </div>
-
-      <div>
-        <label>Age:</label>
-        <input
-          type="number"
-          name="age"
-          value={formData.age}
-          placeholder="00"
-          onChange={handleChange}
-        />
-        {/* {errors.age && <div className="error">{errors.age}</div>} */}
-      </div>
-
-      <div>
-        <label>Gender:</label>
-        <select name="gender" value={formData.gender} onChange={handleChange}>
-          <option value=""></option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        {/* {errors.gender && <div className="error">{errors.gender}</div>} */}
-      </div>
-
-      <div>
-        <label>Interests:</label>
-        <label>
-          <input
-            type="checkbox"
-            name="coding"
-            checked={formData.interests.includes("coding")}
-            onChange={handleCheckChange}
-          />
-          Coding
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="sports"
-            checked={formData.interests.includes("sports")}
-            onChange={handleCheckChange}
-          />
-          Sports
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="reading"
-            checked={formData.interests.includes("reading")}
-            onChange={handleCheckChange}
-          />
-          Reading
-        </label>
-        {/* {errors.interests && <div className="error">{errors.interests}</div>} */}
-      </div>
-
-      <div>
-        <label>Birthdate:</label>
-        <input
-          type="date"
-          name="birthDate"
-          value={formData.birthDate}
-          placeholder="Enter birth day"
-          onChange={handleChange}
-        />
-        {/* {errors.birthDate && <div className="error">{errors.birthDate}</div>} */}
       </div>
 
       <button type="submit">Submit</button>
